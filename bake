@@ -1,20 +1,27 @@
 #!/bin/bash
 
+# nsfu
 cd "$(dirname "$0")"
-
 if [ -f ".env" ]; then
   export $(grep -v '^#' .env | xargs -d '\n')
 fi
 
+set -x
+
 if [ "$1" = "run" ]; then
-  echo "Running..."
-  go run bake/a/cake.go
+  go run bake/strawberry/cake.go
+elif [ "$1" = "play" ]; then
+  go run cmd/play/play.go
 elif [ "$1" = "build" ]; then
-  echo "Building..."
   mkdir -p build
-  go build -o build/ a/strawberry/cake.go
+  go build -o build/ bake/strawberry/cake.go
+elif [ "$1" = "test" ]; then
+  go test -v ${@:2}
+elif [ "$1" = "clean" ]; then
+  rm -rf build/
 else
-  echo "Shiver me timbers!!.. Invalid arrghh: $1"
+  set +x
+  echo "Shiver me timbers!!.. Invalid arrghh - $1"
   exit 1
 fi
 
