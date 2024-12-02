@@ -6,6 +6,8 @@ if [ -f ".env" ]; then
   export $(grep -v '^#' .env | xargs -d '\n')
 fi
 
+INSTALL_DIR=$(eval $INSTALL_DIR)
+
 set -x
 
 if [ "$1" = "run" ]; then
